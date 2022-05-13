@@ -1,5 +1,5 @@
 <template>
-  <nav>顶部通栏</nav>
+  <AppTopnav/>
   <header>头部</header>
   <main>
     <router-view></router-view>
@@ -9,8 +9,10 @@
 </template>
 
 <script>
+import AppTopnav from '@/components/app-topnav'
 export default {
-  name: 'xtx-layout'
+  name: 'xtx-layout',
+  components: { AppTopnav }
 }
 </script>
 
