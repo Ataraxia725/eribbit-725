@@ -1,26 +1,19 @@
 <template>
-  <div>
-    app
+  <div class="container">
+    <!-- 修改数据，测试是否持久化 -->
+    App
+    <button @click="fn">axios测试</button>
   </div>
-  <p>ppp</p>
-  <p>{{$store.state.username}}</p>
-  <p>{{$store.getters['newName']}}</p>
-  <button @click="mutationsFn">改名字</button>
-
 </template>
 <script>
-import { useStore } from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'App',
   setup () {
-    const store = useStore()
-    console.log(store.state.username)
-    console.log(store.getters.newName)
-    const mutationsFn = () => {
-      // store.commit('updateName')
-      store.dispatch('updateName')
+    const fn = () => {
+      request('member.profile', 'get', { a: 10 })
     }
-    return { mutationsFn }
+    return { fn }
   }
 }
 </script>
