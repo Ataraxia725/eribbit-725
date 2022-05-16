@@ -1,11 +1,11 @@
 <template>
-  <AppTopnav/>
-  <AppHeader/>
+  <App-Topnav/>
+  <App-Header/>
   <main class="app-body">
     // 二级路由
     <router-view></router-view>
   </main>
-  <AppFooter/>
+  <App-Footer/>
 </template>
 
 <script>

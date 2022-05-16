@@ -15,14 +15,27 @@ export default {
   mutations: {
     setList (state, headCategory) {
       state.list = headCategory
+    },
+    show (state, item) {
+      const category = state.list.find(category => category.id === item.id)
+      category.open = true
+    },
+    hide (state, item) {
+      const category = state.list.find(category => category.id === item.id)
+      category.open = false
     }
   },
   // 需要向后台加载数据，所以需要actions函数获取数据
   actions: {
     async getList ({ commit }) {
       const { result } = await findAllCategory()
+      // 给一级分类加上一个控制二级分类显示隐藏的数据open
+      result.forEach(item => {
+        item.open = false
+      })
+      // console.log(result)
       // 获取数据成功，提交mutations进行数据修改
-      commit('setCategory', result)
+      commit('setList', result)
     }
   }
 }
