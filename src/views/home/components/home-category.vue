@@ -1,17 +1,21 @@
 <template>
-    <div class="home-category">
+    <div class="home-category" @mouseleave="categoryId=null">
         <ul class="menu">
-            <li v-for="item in menuList" :key="item.id"  @mouseenter="categoryId=item.id">
+            <li :class="{active:categoryId === item.id}" v-for="item in menuList" :key="item.id"  @mouseenter="categoryId=item.id">
             <router-link :to="`/category/${item.id}`">{{item.name}}</router-link>
                 <template v-if="item.children">
                 <router-link v-for="sub in chilidren" :key="sub.id" :to="`/category/sub/%{sub.id}`">
                     {{sub.name}}
                 </router-link></template>
+                <span v-else>
+                  <xtx-skeleton width="60px" height="18px" style="margin-right:5px" bg="rgba(255,255,255,0.2)"></xtx-skeleton>
+                  <xtx-skeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)"></xtx-skeleton>
+                </span>
             </li>
         </ul>
         //弹层
-         <div class="layer">
-      <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+      <div class="layer">
+      <h4 v-if="currCategory">{{currCategory.id ==='brand'?'品牌':'分类'}}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
         <li v-for="item in currCategory.goods" :key="item.id">
         <router-link to="/">
@@ -23,6 +27,19 @@
           </div>
         </router-link></li>
       </ul>
+      <ul v-if="currCategory&& currCategory.brands && currCategory.brands.length">
+        <li class="brand" v-for="item in currCategory.brands" :key="item.id">
+        <router-link to="/">
+          <img :src="item.picture" alt="">
+          <div class="info">
+            <p class="place"><i class="iconfont icon-dingwei"></i>{{item.place}}</p>
+            <p class="name ellipsis">{{item.name}}</p>
+            <p class="name ellipsis-2">{{item.desc}}</p>
+
+          </div>
+        </router-link>
+        </li>
+      </ul>
     </div>
     </div>
 </template>
@@ -30,13 +47,15 @@
 <script>
 import { useStore } from 'vuex'
 import { reactive, computed, ref } from 'vue'
+import { findBrand } from '@/api/home.js'
 export default {
   name: 'HomeCategory',
   setup () {
     const brand = reactive({
       id: 'brand',
       name: '品牌',
-      children: [{ id: 'brand-children', name: '品牌推荐' }]
+      children: [{ id: 'brand-children', name: '品牌推荐' }],
+      brands: []
     })
     const store = useStore()
     const menuList = computed(() => {
@@ -56,6 +75,9 @@ export default {
     const currCategory = computed(() => {
       return menuList.value.find(item => item.id === categoryId.value)
     })
+    findBrand().then(data => {
+      brand.brands = data.result
+    })
     return { menuList, categoryId, currCategory }
   }
 }
@@ -74,7 +96,7 @@ export default {
       padding-left: 40px;
       height: 50px;
       line-height: 50px;
-      &:hover {
+      &:hover ,&.active{
         background: @xtxColor;
       }
       a {
@@ -173,5 +195,38 @@ export default {
         display: block;
     }
 }
+      li.brand {
+          height: 180px;
+
+          a {
+              align-items: flex-start;
+
+              img {
+                  width: 120px;
+                  height: 160px;
+              }
+
+              .info {
+                  p {
+                      margin-top: 8px;
+                  }
+
+                  .place {
+                      color: #999;
+                  }
+              }
+          }
+      }
+      .xtx-skeleton{
+        animation: fade 1s linear infinite alternate;
+      }
+      @keyframes fade{
+        from{
+          opacity:0.2;
+        }
+        to{
+          opacity:1;
+        }
+      }
 }
 </style>
