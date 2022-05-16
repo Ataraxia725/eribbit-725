@@ -13,7 +13,7 @@
                 </span>
             </li>
         </ul>
-        //弹层
+        <!-- //弹层 -->
       <div class="layer">
       <h4 v-if="currCategory">{{currCategory.id ==='brand'?'品牌':'分类'}}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
