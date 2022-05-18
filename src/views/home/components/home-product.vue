@@ -1,6 +1,6 @@
 <template>
   <div class="home-product" ref="target">
-      <home-panel title="cate.name" v-for="cate in list" :key="cate.id">
+      <home-panel  v-for="cate in list" :key="cate.id" :title="cate.name">
       <template v-slot:right>
           <div class="sub">
               <router-link v-for="sub in cate.children" :key="sub.id"  to="/">{{sub.name}}</router-link>

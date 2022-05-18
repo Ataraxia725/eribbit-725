@@ -2,7 +2,6 @@
   <App-Topnav/>
   <App-Header/>
   <main class="app-body">
-    // 二级路由
     <router-view></router-view>
   </main>
   <App-Footer/>

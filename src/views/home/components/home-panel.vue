@@ -1,5 +1,5 @@
 <template>
-  <div class="home-paner">
+  <div class="home-panel">
       <div class="container">
           <div class="head">
               <h3>{{title}} <small>{{subTitle}}</small></h3>
