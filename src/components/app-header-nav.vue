@@ -2,11 +2,11 @@
   <ul class="app-header-nav">
     <li class="home"><Router-Link to="/">首页</Router-Link></li>
     <li v-for="item in list" :key="item.id" @mousemove="show(item)" @mouseenter="show(item)" @mouseleave="hide(item)">
-    <Router-Link to="/category/${item.id}" @click="hide(item)">{{item.name}}</Router-Link>
+    <Router-Link :to="`/category/${item.id}`" @click="hide(item)">{{item.name}}</Router-Link>
     <div class="layer">
       <ul>
         <li v-for="sub in item.children" :key="sub.id">
-        <Router-Link to="/category/sub/${sub.id}" @click="hide(item)">
+        <Router-Link :to="`/category/sub/${sub.id}`" @click="hide(item)">
           <img :src="sub.picture" alt="">
            <p>{{sub.name}}</p>
         </Router-Link>

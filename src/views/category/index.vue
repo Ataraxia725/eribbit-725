@@ -2,60 +2,55 @@
   <div class="top-category">
     <div class="container">
       <!-- 面包屑 -->
-      <xtx-bread>
-        <transition name="fade-right" mode="out-in">
-        <xtx-bread-item to="/">首页</xtx-bread-item>
-        </transition>
-        <transition name="fade-right" mode="out-in">
-        <xtx-bread-item>{{topCategory.name}}</xtx-bread-item>
-        </transition>
-      </xtx-bread>
+      <XtxBread>
+        <XtxBreadItem to="/">首页</XtxBreadItem>
+        <XtxBreadItem v-if="topCategory">{{topCategory.name}}</XtxBreadItem>
+      </XtxBread>
       <!-- 轮播图 -->
-      <xtx-carousel :sliders="sliders" style="height:500px"></xtx-carousel>
+      <XtxCarousel :sliders="sliders" style="height:500px" />
       <!-- 所有二级分类 -->
       <div class="sub-list">
         <h3>全部分类</h3>
         <ul>
           <li v-for="item in topCategory.children" :key="item.id">
-          <a href="javascript:;">
-            <img :src="item.picture" alt="">
-            <p>{{item.name}}</p>
-          </a>
+            <a href="javascript:;">
+              <img :src="item.picture" >
+              <p>{{item.name}}</p>
+            </a>
           </li>
         </ul>
       </div>
-      <!-- 不同分类产品 -->
+      <!-- 不同分类商品 -->
+    <!-- 分类关联商品 -->
       <div class="ref-goods" v-for="item in subList" :key="item.id">
         <div class="head">
           <h3>- {{item.name}} -</h3>
           <p class="tag">{{item.desc}}</p>
-          <xtx-more></xtx-more>
+          <XtxMore />
         </div>
         <div class="body">
-          <goods-item v-for="g in item.goods" :key="g.id" :goods="g"></goods-item>
+          <GoodsItem v-for="g in item.goods" :key="g.id" :goods="g" />
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { findBanner } from '@/api/home'
-import { ref, computed, watch } from 'vue'
+import { findTopCategory } from '@/api/category'
+import GoodsItem from './components/goods-item'
+import { ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import GoodsItem from './components/goods-item'
-import { findTopCategory } from '@/api/category'
 export default {
   name: 'TopCategory',
   components: { GoodsItem },
   setup () {
+    // 轮播图
     const sliders = ref([])
-    findBanner().then(
-      data => {
-        sliders.value = data.result
-      }
-    )
+    findBanner().then(data => {
+      sliders.value = data.result
+    })
     // 面包屑+所有分类
     const store = useStore()
     const route = useRoute()
@@ -67,6 +62,7 @@ export default {
       if (item) cate = item
       return cate
     })
+    console.log(topCategory)
     // 推荐商品
     const subList = ref([])
     const getSubList = () => {
@@ -75,14 +71,13 @@ export default {
       })
     }
     watch(() => route.params.id, (newVal) => {
-      // newVal && getSubList()
-      if (newVal && `/category/${newVal}` === route.path) getSubList()
+      newVal && getSubList()
     }, { immediate: true })
+
     return { sliders, topCategory, subList }
   }
 }
 </script>
-
 <style scoped lang="less">
 .top-category {
   h3 {
@@ -121,7 +116,7 @@ export default {
     }
   }
 }
- .ref-goods {
+  .ref-goods {
     background-color: #fff;
     margin-top: 20px;
     position: relative;

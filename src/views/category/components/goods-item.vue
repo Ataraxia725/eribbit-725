@@ -1,6 +1,6 @@
 <template>
   <router-link to="/" class="goods-item">
-      <img :src="godds.picture" alt="">
+      <img :src="goods.picture" alt="">
       <p class="name ellipsis">{{goods.name}}</p>
       <p class="desc ellipsis">{{goods.tag}}</p>
       <p class="price">&yen;{{goods.price}}</p>

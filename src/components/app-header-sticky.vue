@@ -1,20 +1,19 @@
 <template>
   <div class="app-header-sticky" :class="{show:y>=78}">
       <div class="container" v-show="y>=78">
-          <router-link class="logo" to="/">
+          <router-link class="logo" to="/" />
               <app-header-nav></app-header-nav>
               <div class="right">
                   <router-link to="/">品牌</router-link>
                   <router-link to="/">专题</router-link>
               </div>
-          </router-link>
       </div>
   </div>
 </template>
 
 <script>
 import AppHeaderNav from './app-header-nav'
-import { useWindowScroll } from '@vueuse.core'
+import { useWindowScroll } from '@vueuse/core'
 export default {
   name: 'AppHeaderSticky',
   components: { AppHeaderNav },

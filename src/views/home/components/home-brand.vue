@@ -35,6 +35,7 @@ export default {
     //   brands.value = data.result
     // })
     const { target, result } = useLazyData(() => findBrand(10))
+
     const index = ref(0)
     const toggle = (step) => {
       const newIndex = index.value + step

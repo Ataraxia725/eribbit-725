@@ -23,7 +23,7 @@ export default {
 
 <style scoped lang="less" >
 .home-skeleton {
-      width: 1240px;
+  width: 1240px;
   height: 406px;
   display: flex;
   justify-content: space-between;

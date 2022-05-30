@@ -7,10 +7,10 @@
               </router-link>
           </li>
       </ul>
-    <a href="javascript:;" class="carousel-btn prev"><i class="iconfont icon-angle-left"></i></a>
-    <a href="javascript:;" class="carousel-btn next"><i class="iconfont icon-angle-right"></i></a>
+    <a @click="toggle(-1)"  href="javascript:;" class="carousel-btn prev"><i class="iconfont icon-angle-left"></i></a>
+    <a @click="toggle(1)" href="javascript:;" class="carousel-btn next"><i class="iconfont icon-angle-right"></i></a>
     <div class="carousel-indicator">
-      <span v-for="(item,i) in sliders" :key="i" :class="{active:index===i}"></span>
+      <span @click="index=i"  v-for="(item,i) in sliders" :key="i" :class="{active:index===i}"></span>
       </div>
   </div>
 </template>

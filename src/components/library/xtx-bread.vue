@@ -1,11 +1,3 @@
-<template>
-  <div class="xtx-bread">
-      <xtx-bread-item to="/">首页</xtx-bread-item>
-      <xtx-bread-item to="/category/1005000">电器</xtx-bread-item>
-      <xtx-bread-item >空调</xtx-bread-item>
-  </div>
-</template>
-
 <script>
 import { h } from 'vue'
 export default {

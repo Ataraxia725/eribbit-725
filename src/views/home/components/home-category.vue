@@ -4,16 +4,14 @@
             <li :class="{active:categoryId === item.id}" v-for="item in menuList" :key="item.id"  @mouseenter="categoryId=item.id">
             <router-link :to="`/category/${item.id}`">{{item.name}}</router-link>
                 <template v-if="item.children">
-                <router-link v-for="sub in chilidren" :key="sub.id" :to="`/category/sub/%{sub.id}`">
-                    {{sub.name}}
-                </router-link></template>
-                <span v-else>
+                <router-link v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">{{sub.name}}</router-link></template>
+                <template v-else>
                   <xtx-skeleton width="60px" height="18px" style="margin-right:5px" bg="rgba(255,255,255,0.2)"></xtx-skeleton>
                   <xtx-skeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)"></xtx-skeleton>
-                </span>
+                </template>
             </li>
         </ul>
-        <!-- //弹层 -->
+      <!-- //弹层 -->
       <div class="layer">
       <h4 v-if="currCategory">{{currCategory.id ==='brand'?'品牌':'分类'}}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
@@ -27,6 +25,7 @@
           </div>
         </router-link></li>
       </ul>
+
       <ul v-if="currCategory&& currCategory.brands && currCategory.brands.length">
         <li class="brand" v-for="item in currCategory.brands" :key="item.id">
         <router-link to="/">
@@ -35,7 +34,6 @@
             <p class="place"><i class="iconfont icon-dingwei"></i>{{item.place}}</p>
             <p class="name ellipsis">{{item.name}}</p>
             <p class="name ellipsis-2">{{item.desc}}</p>
-
           </div>
         </router-link>
         </li>
@@ -75,7 +73,7 @@ export default {
     const currCategory = computed(() => {
       return menuList.value.find(item => item.id === categoryId.value)
     })
-    findBrand().then(data => {
+    findBrand(6).then(data => {
       brand.brands = data.result
     })
     return { menuList, categoryId, currCategory }
@@ -187,15 +185,7 @@ export default {
                 }
             }
         }
-    }
-}
-
-&:hover {
-    .layer {
-        display: block;
-    }
-}
-      li.brand {
+        li.brand {
           height: 180px;
 
           a {
@@ -217,6 +207,14 @@ export default {
               }
           }
       }
+    }
+}
+
+&:hover {
+    .layer {
+        display: block;
+    }
+}
       .xtx-skeleton{
         animation: fade 1s linear infinite alternate;
       }
