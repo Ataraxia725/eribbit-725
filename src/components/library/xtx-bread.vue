@@ -7,7 +7,7 @@ export default {
     const dymanicItems = []
     items.forEach((item, i) => {
       dymanicItems.push(item)
-      if (i < (items.lenght - 1)) {
+      if (i < (items.length - 1)) {
         dymanicItems.push(h('i', { class: 'iconfont icon-angle-right' }))
       }
     })

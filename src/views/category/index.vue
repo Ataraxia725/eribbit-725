@@ -4,7 +4,10 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem v-if="topCategory">{{topCategory.name}}</XtxBreadItem>
+        <Transition name="fade-right" mode="out-in">
+           <XtxBreadItem :key="topCategory.id">{{topCategory.name}}</XtxBreadItem>
+        </Transition>
+
       </XtxBread>
       <!-- 轮播图 -->
       <XtxCarousel :sliders="sliders" style="height:500px" />
@@ -26,7 +29,7 @@
         <div class="head">
           <h3>- {{item.name}} -</h3>
           <p class="tag">{{item.desc}}</p>
-          <XtxMore />
+          <XtxMore :path="`/category/sub/${item.id}`" />
         </div>
         <div class="body">
           <GoodsItem v-for="g in item.goods" :key="g.id" :goods="g" />
@@ -62,7 +65,6 @@ export default {
       if (item) cate = item
       return cate
     })
-    console.log(topCategory)
     // 推荐商品
     const subList = ref([])
     const getSubList = () => {
@@ -71,7 +73,8 @@ export default {
       })
     }
     watch(() => route.params.id, (newVal) => {
-      newVal && getSubList()
+      // newVal && getSubList()
+      if (newVal && `/category/${newVal}` === route.path) getSubList()
     }, { immediate: true })
 
     return { sliders, topCategory, subList }
@@ -79,7 +82,10 @@ export default {
 }
 </script>
 <style scoped lang="less">
+//进入 右侧 20px的位移 透明度为9 做过度0.5s 本来位置 没有位移 透明度1
+
 .top-category {
+
   h3 {
     font-size: 28px;
     color: #666;

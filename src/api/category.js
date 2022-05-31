@@ -3,6 +3,7 @@ import request from '@/utils/request'
 
 /**
  * 获取首页头部分类数据
+ * @returns Promise
  */
 export const findAllCategory = () => {
   return request('/home/category/head', 'get')
@@ -10,6 +11,7 @@ export const findAllCategory = () => {
 /**
  * 获取单个顶级分类信息
  * @param {String} id - 顶级分类ID
+ * @returns
  */
 export const findTopCategory = (id) => {
   return request('/category', 'get', { id })
