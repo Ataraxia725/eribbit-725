@@ -3,13 +3,13 @@
     <div class="item">
       <div class="head">品牌：</div>
       <div class="body">
-        <a :class="{active:filterData.selectedBrand===brand.id}" href="javasript:;" v-for="brand in filterData.brands" :key="brand.id">{{brand.name}}</a>
+        <a @click="filterData.selectedBrand = brand.id" :class="{active:filterData.selectedBrand===brand.id}" href="javasript:;" v-for="brand in filterData.brands" :key="brand.id">{{brand.name}}</a>
       </div>
     </div>
     <div class="item" v-for="p in filterData.saleProperties" :key="p.id">
-      <div class="head">{{p.name}}：</div>
+      <div class="head">{{p.name}}:</div>
       <div class="body">
-        <a :class="{active:p.selectedProp===attr.id}" href="javasript:;" v-for="attr in p.properties" :key="attr.id">{{attr.name}}</a>
+        <a @click="p.selectedProp = attr.id" :class="{active:p.selectedProp===attr.id}" href="javasript:;" v-for="attr in p.properties" :key="attr.id">{{attr.name}}</a>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@ export default {
           result.brands.unshift({ id: null, name: '全部' })
           // 销售属性全部
           result.saleProperties.forEach(p => {
-            p.selectedProp = undefined
+            p.selectedProp = null
             p.properties.unshift({ id: null, name: '全部' })
           })
           filterData.value = result
@@ -110,6 +110,9 @@ export default {
           }
         }
       }
+    }
+    .xtx-skeleton {
+      padding:10px 0;
     }
   }
 </style>
