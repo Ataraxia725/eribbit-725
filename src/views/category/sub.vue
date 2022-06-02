@@ -11,8 +11,8 @@
         <SubSort />
         <!-- 列表 -->
         <ul>
-          <li v-for="i in 20" :key="i" >
-            <GoodsItem  @filter-change="changeSort" :goods="{}" />
+          <li v-for="goods in goodsList" :key="goods.id" >
+            <GoodsItem  @filter-change="changeSort" :goods="goods" />
           </li>
         </ul>
         <!-- 加载 -->

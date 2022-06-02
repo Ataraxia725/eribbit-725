@@ -2,14 +2,14 @@
   <div class="xtx-checkbox" @click="changeChecked()">
     <i v-if="checked" class="iconfont icon-checked"></i>
     <i v-else class="iconfont icon-unchecked"></i>
-    <span v-if="$slots.default"> <slot /></span>
+    <span v-if="$slots.default"><slot /></span>
   </div>
 </template>
 
 <script>
 import { useVModel } from '@vueuse/core'
 export default {
-  name: 'XtxChecked',
+  name: 'XtxCheckbox',
   props: {
     modelValue: {
       type: Boolean,
@@ -21,6 +21,7 @@ export default {
     const changeChecked = () => {
       const newVal = !checked.value
       checked.value = newVal
+      // 让组件支持change事件
       emit('change', newVal)
     }
     return { checked, changeChecked }
