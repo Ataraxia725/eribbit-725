@@ -3,13 +3,13 @@
     <div class="item">
       <div class="head">品牌：</div>
       <div class="body">
-        <a @click="filterData.selectedBrand = brand.id" :class="{active:filterData.selectedBrand===brand.id}" href="javasript:;" v-for="brand in filterData.brands" :key="brand.id">{{brand.name}}</a>
+        <a @click="changeBrand(brand.id)" :class="{active:filterData.selectedBrand===brand.id}" href="javasript:;" v-for="brand in filterData.brands" :key="brand.id">{{brand.name}}</a>
       </div>
     </div>
     <div class="item" v-for="p in filterData.saleProperties" :key="p.id">
       <div class="head">{{p.name}}:</div>
       <div class="body">
-        <a @click="p.selectedProp = attr.id" :class="{active:p.selectedProp===attr.id}" href="javasript:;" v-for="attr in p.properties" :key="attr.id">{{attr.name}}</a>
+        <a @click="changeAttr(p,attr.id)" :class="{active:p.selectedProp===attr.id}" href="javasript:;" v-for="attr in p.properties" :key="attr.id">{{attr.name}}</a>
       </div>
     </div>
   </div>
@@ -56,17 +56,16 @@ export default {
     }, { immediate: true })
     // 获取筛选参数
     const getFilterParams = () => {
-      const filterParams = {}
-      const attrs = []
-      filterParams.brandId = filterData.value.selectedBrand
-      filterData.value.saleProperties.forEach(p => {
-        const attr = p.properties.find(attr => attr.id === p.selectedProp)
-        if (attr && attr.id !== undefined) {
-          attrs.push({ groupName: p.name, propertyName: attr.name })
+      const obj = { brandId: null, attrs: [] }
+      obj.brandId = filterData.value.selectedBrand
+      filterData.value.saleProperties.forEach(item => {
+        if (item.selectedProp) {
+          const prop = item.properties.find(prop => prop.id === item.selectedProp)
+          obj.attrs.push({ groupName: item.name, propertyName: prop.name })
         }
       })
-      if (attrs.length) filterParams.attrs = attrs
-      return filterParams
+      if (obj.attrs.length === 0) obj.attrs = null
+      return obj
     }
 
     // 选择品牌

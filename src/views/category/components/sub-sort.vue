@@ -49,8 +49,12 @@ export default {
         sortParams.sortField = sortField
         sortParams.sortMethod = null
       }
+      emit('sort-change', sortParams)
     }
-    return { sortParams, changeSort }
+    const changeCheck = () => {
+      emit('sort-change', sortParams)
+    }
+    return { sortParams, changeSort, changeCheck }
   }
 }
 </script>

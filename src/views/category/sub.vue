@@ -4,11 +4,11 @@
       <!-- 面包屑 -->
       <SubBread />
       <!-- 筛选区 -->
-      <SubFilter @sort-change="changeFilter" />
+      <SubFilter @filter-change="changeFilter" />
       <!-- 结果区域 -->
       <div class="goods-list">
         <!-- 排序 -->
-        <SubSort />
+        <SubSort @sort-change="changeSort" />
         <!-- 列表 -->
         <ul>
           <li v-for="goods in goodsList" :key="goods.id" >
@@ -78,6 +78,7 @@ export default {
     })
     // 监听筛选区改变
     const changeFilter = (filterParams) => {
+      console.log(filterParams)
       reqParams = { ...reqParams, ...filterParams }
       reqParams.page = 1
       goodsList.value = []
