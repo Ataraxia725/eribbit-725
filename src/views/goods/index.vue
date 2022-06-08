@@ -12,21 +12,34 @@
       <div class="goods-info">
           <div class="media">
               <goodsImage :images ="goods.mainPictures"></goodsImage>
+              <goods-sales></goods-sales>
           </div>
-          <div class="spec"></div>
+          <div class="spec">
+            <!-- 名字组件 -->
+              <goods-name :goods="goods"></goods-name>
+            <!-- 规格组件 -->
+              <goods-sku :goods="goods" @change="changeSku"></goods-sku>
+              <!-- 数量组件 -->
+              <xtx-numbox label="数量" v-model="num" :max="goods.inventory"></xtx-numbox>
+              <xtx-button type="primary" style="margin-top:20px;">加入购物车</xtx-button>
+          </div>
       </div>
       <!-- 商品推荐 -->
-      <GoodsRelevant />
+      <GoodsRelevant :goodsId="goods.id" />
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
-          <div class="goods-tabs"></div>
+          <goods-tabs :goods="goods"></goods-tabs>
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <goods-warn></goods-warn>
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <goods-hot :goodsId="goods.id" :type="1"></goods-hot>
+          <goods-hot :goodsId="goods.id" :type="2"></goods-hot>
+          <goods-hot :goodsId="goods.id" :type="3"></goods-hot>
+        </div>
       </div>
     </div>
   </div>
@@ -35,15 +48,39 @@
 <script>
 import GoodsRelevant from './components/goods-relevant'
 import GoodsImage from './components/goods-image'
-import { nextTick, ref, watch } from 'vue'
+import GoodsSales from './components/goods-sales'
+import GoodsName from './components/goods-name'
+import GoodsSku from './components/goods-sku'
+import { nextTick, ref, watch, provide } from 'vue'
 import { findGoods } from '@/api/product'
 import { useRoute } from 'vue-router'
+import GoodsTabs from './components/goods-tabs'
+import GoodsHot from './components/goods-hot'
+import GoodsWarn from './components/goods-warn'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage },
+  components: {
+    GoodsRelevant,
+    GoodsImage,
+    GoodsSales,
+    GoodsName,
+    GoodsSku,
+    GoodsTabs,
+    GoodsHot,
+    GoodsWarn
+  },
   setup () {
+    const num = ref(1)
     const goods = useGoods()
-    return { goods }
+    const changeSku = (sku) => {
+      if (sku.skuId) {
+        goods.value.price = sku.price
+        goods.value.oldPrice = sku.oldPrice
+        goods.valueinventory = sku.inventory
+      }
+    }
+    provide('goods', goods)
+    return { goods, changeSku, num }
   }
 }
 const useGoods = () => {
@@ -89,10 +126,6 @@ const useGoods = () => {
     width: 280px;
     min-height: 1000px;
   }
-}
-.goods-tabs {
-  min-height: 600px;
-  background: #fff;
 }
 .goods-warn {
   min-height: 600px;
